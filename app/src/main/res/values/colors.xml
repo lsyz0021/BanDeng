@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--按钮的背景颜色 红色-->
+    <color name="button_banner_red_normal">#F5303B</color>
+    <color name="button_banner_red_pressed">#FFFF99</color>
+    <!--按钮的文字颜色 -->
+    <color name="button_banner_textcolor_pressed">#000000</color>
+    <color name="button_banner_textcolor_normal">#FFFFFF</color>
 </resources>
