@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--login界面imeActionId-->
+    <integer name="login_action_name">100</integer>
+    <integer name="login_action_pwd">101</integer>
+    <!--注册界面imeActionId-->
+    <integer name="register_action_name">102</integer>
+    <integer name="register_action_pwd1">103</integer>
+    <integer name="register_action_pwd2">104</integer>
+
+
+</resources>
