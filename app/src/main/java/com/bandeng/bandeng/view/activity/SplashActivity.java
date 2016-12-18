@@ -13,7 +13,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        // 屏蔽home键
         setContentView(R.layout.activity_splash);
         View decorView = getWindow().getDecorView();
         // 全屏
@@ -23,7 +23,7 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -34,5 +34,11 @@ public class SplashActivity extends Activity {
 
             }
         }).start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // 屏蔽返回键
+//        super.onBackPressed();
     }
 }

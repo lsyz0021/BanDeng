@@ -21,7 +21,6 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -33,12 +32,15 @@ import com.bandeng.bandeng.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, TextView.OnEditorActionListener {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -58,45 +60,67 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+    @BindView(R.id.et_login_email)
+    public AutoCompleteTextView mEmailView;
+    @BindView(R.id.et_login_password)
+    public EditText mPasswordView;
+    @BindView(R.id.pb_login_progress)
+    public View mProgressView;
+    @BindView(R.id.email_login_form)
+    public View mLoginFormView;
+    @BindView(R.id.btn_login_sign_up)
+    public Button mBtn_sign_up;
+    @BindView(R.id.btn_login_sign_in)
+    public Button mBtn_sign_in;
+    private static final int login_action_name = 100;
+    private static final int login_action_pwd = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        ButterKnife.bind(this);
 
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
         // 按下软键盘的Enter按钮才触发这个方法
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+        mEmailView.setOnEditorActionListener(this);
+        mPasswordView.setOnEditorActionListener(this);
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        // 登陆按钮
+        mBtn_sign_in.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
+        // 注册按钮
+        mBtn_sign_up.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        boolean result = false;
+        switch (actionId) {
+            case login_action_name:
+                mPasswordView.requestFocus();
+                result = true;
+                break;
+            case login_action_pwd:
+                attemptLogin();
+                result = true;
+                break;
+            default:
+
+        }
+        return result;
     }
 
     private void populateAutoComplete() {
@@ -199,6 +223,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
@@ -212,7 +237,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 7;
     }
 
     /**

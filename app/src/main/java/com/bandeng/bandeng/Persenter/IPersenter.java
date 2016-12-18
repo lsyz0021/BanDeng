@@ -5,4 +5,6 @@ package com.bandeng.bandeng.persenter;
  */
 
 public interface IPersenter {
+
+    public String getRegisterData();
 }

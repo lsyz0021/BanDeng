@@ -7,7 +7,7 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.bandeng.bandeng"
-        minSdkVersion 17
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -15,7 +15,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled true // 开启混淆
+            zipAlignEnabled true // 4K对齐，优化内存
+            shrinkResources true // 去除不使用资源文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
