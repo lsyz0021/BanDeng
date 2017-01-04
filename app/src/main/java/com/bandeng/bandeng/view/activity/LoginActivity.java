@@ -101,6 +101,29 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
+
+/*
+                final String url = "https://www.baidu.com/baidu";
+                final HashMap<String, String> map = new HashMap<>();
+                map.put("wd", "12306");
+                map.put("tn", "monline_4_dg");
+                map.put("ie", "utf-8");
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            String s = OkhttpUtils.getInstance().postRequest(url, map);
+                            String s = OkhttpUtils.getInstance().getRequest(url, map);
+                            L.e(s);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }).start();
+*/
+
             }
         });
     }
