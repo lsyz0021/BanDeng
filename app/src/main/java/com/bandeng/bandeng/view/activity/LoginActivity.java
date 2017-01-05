@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         try {
                             String s = OkhttpUtils.getInstance().postRequest(url, map);
                             String s = OkhttpUtils.getInstance().getRequest(url, map);
-                            L.e(s);
+                            Logs.e(s);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
