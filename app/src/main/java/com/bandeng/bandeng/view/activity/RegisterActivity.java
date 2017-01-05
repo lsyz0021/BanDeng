@@ -17,9 +17,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bandeng.bandeng.R;
-import com.bandeng.bandeng.utils.NetUtils;
+import com.bandeng.bandeng.utils.OkhttpUtils;
 import com.orhanobut.logger.Logger;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -133,7 +134,11 @@ public class RegisterActivity extends BaseActivity implements TextView.OnEditorA
         hashMap.put("name", register_name);
         hashMap.put("pwd1", register_pwd1);
         hashMap.put("pwd2", register_pwd2);
-        requestParams = NetUtils.getRequestParams(hashMap);
+        try {
+            requestParams = OkhttpUtils.getInstance().getRequest("url", hashMap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         showProgress(true);
 
