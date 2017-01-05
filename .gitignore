@@ -7,3 +7,5 @@
 /build
 /captures
 .externalNativeBuild
+.idea/.name
+appKey_release.jks

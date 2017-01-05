@@ -2,19 +2,34 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'         // 3/4、greenDAO
 apply plugin: 'com.neenbedankt.android-apt'     // 3/4、ButterKnife
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
-    compileSdkVersion 23
-    buildToolsVersion "24.0.2"
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    signingConfigs {
+        release {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['keyPassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+    }
+
     defaultConfig {
         applicationId "com.bandeng.bandeng"
-        minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled true // 开启混淆
             zipAlignEnabled true // 4K对齐，优化内存
             shrinkResources true // 去除不使用资源文件
@@ -25,35 +40,36 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile(rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:design:23.4.0'
+    compile rootProject.ext.dependencies.appcompatV7
+    testCompile rootProject.ext.dependencies.junit
+    compile rootProject.ext.dependencies.design
+
     // 网络请求
-    compile 'com.squareup.okhttp3:okhttp:3.3.1'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile rootProject.ext.dependencies.okhttp
+    compile rootProject.ext.dependencies.retrofit
     // 图片加载
-    //compile 'com.facebook.fresco:fresco:0.11.0'
-    //compile 'com.facebook.fresco:animated-gif:0.12.0' // 用于加载gif图片
+//    compile rootProject.ext.dependencies.fresco
+//    compile rootProject.ext.dependencies.animatedGif // 用于加载gif图片
 
-    //compile 'com.squareup.picasso:picasso:2.5.2'
+//    compile rootProject.ext.dependencies.picasso
 
-    //compile 'com.github.chrisbanes:PhotoView:1.3.1' // 2/2、PhotoView
+//    compile rootProject.ext.dependencies.photoView // 2/2、PhotoView
 
-    //compile 'io.reactivex:rxandroid:1.2.1'
-    //compile 'io.reactivex:rxjava:1.2.2'
+//    compile rootProject.ext.dependencies.rxAndroid
+//    compile rootProject.ext.dependencies.rxJava
     // json解析
-    //compile 'com.alibaba:fastjson:1.1.54.android'
-    compile 'com.google.code.gson:gson:2.8.0'
+//    compile rootProject.ext.dependencies.fastJson
+    compile rootProject.ext.dependencies.gson
     // log打印工具
-    compile 'com.orhanobut:logger:1.15'
+    compile rootProject.ext.dependencies.logger
 
-    compile 'org.greenrobot:greendao:3.2.0' // 4/4、greenDAO
+//    compile rootProject.ext.dependencies.greendao // 4/4、greenDAO
 
     // 4/4、ButterKnife
-    compile 'com.jakewharton:butterknife:8.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile rootProject.ext.dependencies.butterknife
+    apt rootProject.ext.dependencies.butterknifeCompiler
 
 }
