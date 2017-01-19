@@ -31,10 +31,15 @@ android {
         release {
             signingConfig signingConfigs.release
             minifyEnabled true // 开启混淆
-            zipAlignEnabled true // 4K对齐，优化内存
-            shrinkResources true // 去除不使用资源文件
+            zipAlignEnabled true // zip对齐，优化内存
+            shrinkResources true // 移除无用的resource文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    //程序在buid的时候，会执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉
+    lintOptions {
+        abortOnError false
+        htmlReport true
     }
 }
 
